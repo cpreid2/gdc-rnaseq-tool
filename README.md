@@ -1,6 +1,11 @@
 # gdc-rnaseq-tool
 Tool to merge RNA Seq Data from the GDC Portal
 
+__Requirements__:
+
+- Python 3
+- pandas: `pip3 install pandas`
+
 __Quick Start__:
 
 1. Download manifest containing RNA/miRNA expression files from https://portal.gdc.cancer.gov/
