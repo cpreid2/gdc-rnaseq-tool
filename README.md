@@ -2,6 +2,7 @@
 Tool to merge individual RNA Seq Data files from the GDC Portal into a single matrix
 
 Works for:
+
 RNA-Seq
 - HTSeq - Counts
 - HTSeq - FPKM
