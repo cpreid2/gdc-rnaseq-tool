@@ -1,5 +1,5 @@
 # gdc-rnaseq-tool
-Tool to merge individual RNA Seq Data files from the GDC Portal into a single matrices:
+Tool to merge individual RNA Seq Data files from the GDC Portal into a matrices:
 
 RNA-Seq
 - HTSeq - Counts
