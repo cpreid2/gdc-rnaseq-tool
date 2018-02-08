@@ -28,7 +28,7 @@ Usage: `python3 gdc-rnaseq-tool.py <manifest_file>`
 
 Notes:
 * A test manifest is provided for troubleshooting:  `python3 gdc-rnaseq-tool.py Test_Manifest.txt`
-* Files are by default downloaded to the same folder as the Manifest File provided
+* Files are by default downloaded to the same folder as the manifest file that was provided
 
 **Release Notes:**
 
