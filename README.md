@@ -4,7 +4,7 @@ Tool to merge RNA Seq Data from the GDC Portal
 __Requirements__:
 
 - Python 3
-- pandas: `pip3 install pandas`
+- pandas ( https://pandas.pydata.org/pandas-docs/stable/install.html ): `pip3 install pandas`
 
 __Quick Start__:
 
