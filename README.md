@@ -1,6 +1,8 @@
 # gdc-rnaseq-tool
 Tool to merge individual RNA Seq Data files from the GDC Portal into a matrices identified by TCGA barcode:
 
+![Image](https://raw.githubusercontent.com/cpreid2/gdc-rnaseq-tool/master/Images/TCGA%20Barcode.png)
+
 RNA-Seq
 - HTSeq - Counts
 - HTSeq - FPKM
