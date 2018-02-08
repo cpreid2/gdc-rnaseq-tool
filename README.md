@@ -22,7 +22,7 @@ __Quick Start__:
 
 The GDC RNA Seq tool produces matrices of merged RNA/MiRNA expression data given a manifest file.
 
-Usage: `python gdc-rnaseq-tool.py <manifest_file>`
+Usage: `python3 gdc-rnaseq-tool.py <manifest_file>`
 
 Notes:
 * A test manifest is provided for troubleshooting:  `python gdc-tsv-tool.py Test_Manifest.txt`
