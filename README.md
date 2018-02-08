@@ -16,9 +16,9 @@ Notes:
 
 **Release Notes:**
 
-Version 1.0: Feb 8, 2017
+Version 1.0: Feb 8, 2018
 
-* Initial release!
+* Initial release
 
 Known Issues:
 N/A
