@@ -1,15 +1,24 @@
 # gdc-rnaseq-tool
-Tool to merge individual RNA Seq Data files from the GDC Portal into a matrices identified by TCGA barcode:
+Tool to merge individual RNASeq Data files from the GDC Portal into a matrices identified by TCGA barcode.
 
 ![Image](https://raw.githubusercontent.com/cpreid2/gdc-rnaseq-tool/master/Images/TCGA%20Barcode.png)
 
-RNA-Seq
-- HTSeq - Counts
-- HTSeq - FPKM
-- HTSeq - FPKM-UQ
+__Inputs and Outputs__:
 
-miRNA-Seq
-- miRNA Expression Quantification
+| I/O | File |
+|---|---|
+| Input | [GDC Manifest File](https://docs.gdc.cancer.gov/Data_Transfer_Tool/Users_Guide/Preparing_for_Data_Download_and_Upload/#obtaining-a-manifest-file-for-data-download) |
+| Output | Merged_Counts.tsv ([HTSeq - Counts](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/#upper-quartile-fpkm)) |
+|  | Merged_FPKM.tsv ([HTSeq - FPKM](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/#fpkm)) |
+|  | Merged_FPKM-UQ.tsv ([HTSeq - FPKM-UQ](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/#upper-quartile-fpkm)) |
+|  | Merged_miRNA_Counts.tsv |
+|  | Merged_miRNA_rpmm.tsv |
+
+__Bioinformatics Pipeline Information__:
+
+[RNA-Seq Pipeline](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/)
+
+[miRNA-Seq Pipeline](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/miRNA_Pipeline/)
 
 __Requirements__:
 
@@ -18,8 +27,9 @@ __Requirements__:
 
 __Quick Start__:
 
-1. Download manifest containing RNA/miRNA expression files from https://portal.gdc.cancer.gov/
-2. `python3 gdc-rnaseq-tool.py <manifest_file>`
+1. Download `gdc-rnaseq-tool.py` python script
+2. Download manifest containing RNA/miRNA expression files from https://portal.gdc.cancer.gov/
+3. `python3 gdc-rnaseq-tool.py <manifest_file>`
 ---
 
 The GDC RNA Seq tool produces matrices of merged RNA/MiRNA expression data given a manifest file.
