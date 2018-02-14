@@ -1,5 +1,5 @@
 # gdc-rnaseq-tool
-Tool to merge individual RNASeq Data files from the [GDC Portal](https://portal.gdc.cancer.gov) into a matrices identified by [TCGA barcode](https://wiki.nci.nih.gov/display/TCGA/TCGA+barcode).
+Tool to download / merge individual RNASeq files from the [GDC Portal](https://portal.gdc.cancer.gov) into a matrices identified by [TCGA barcode](https://wiki.nci.nih.gov/display/TCGA/TCGA+barcode).
 
 ![Image](https://raw.githubusercontent.com/cpreid2/gdc-rnaseq-tool/master/Images/TCGA%20Barcode.png)
 
@@ -22,7 +22,7 @@ __Bioinformatics Pipeline Information__:
 
 __Requirements__:
 
-- Python 3
+- Python 3+
 - pandas ( https://pandas.pydata.org/pandas-docs/stable/install.html ): `pip3 install pandas`
 
 __Quick Start__:
@@ -32,7 +32,7 @@ __Quick Start__:
 3. `python3 gdc-rnaseq-tool.py <manifest_file>`
 ---
 
-The GDC RNA Seq tool produces matrices of merged RNA/MiRNA expression data given a manifest file.
+The GDC RNASeq tool produces matrices of merged RNA/MiRNA expression data given a manifest file.
 
 Usage: `python3 gdc-rnaseq-tool.py <manifest_file>`
 
