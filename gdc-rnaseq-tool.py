@@ -187,7 +187,10 @@ for i in range(len(RNASeq_WFs)):
     Files = []
 
     # Create .gz directory in subfolder
-    if not os.path.exists(GZipLocs[i] + '/UnzippedFiles/'):
+    if os.path.exists(GZipLocs[i] + '/UnzippedFiles/'):
+        shutil.rmtree(GZipLocs[i] + '/UnzippedFiles/')
+        os.makedirs(GZipLocs[i] + '/UnzippedFiles/')
+    else:
         os.makedirs(GZipLocs[i] + '/UnzippedFiles/')
 
     for root, dirs, files in os.walk(GZipLocs[i]):
@@ -216,8 +219,6 @@ for i in range(len(RNASeq_WFs)):
         print('Creating merged ' + RNASeq_WFs[i] + ' File... ' + '( ' + Merged_File_Name + ' )')
         Counts_Final_Df = pd.DataFrame(Matrix, index=tuple((Counts_DataFrame['GeneId'])))
         Counts_Final_Df.to_csv(str(Location) + '/' + Merged_File_Name,sep='\t',index=True)
-
-    shutil.rmtree(GZipLocs[i] + '/UnzippedFiles/')
 
 # 5. Merge the miRNA Seq files
 # -------------------------------------------------------
