@@ -217,6 +217,8 @@ for i in range(len(RNASeq_WFs)):
         Counts_Final_Df = pd.DataFrame(Matrix, index=tuple((Counts_DataFrame['GeneId'])))
         Counts_Final_Df.to_csv(str(Location) + '/' + Merged_File_Name,sep='\t',index=True)
 
+    shutil.rmtree(GZipLocs[i] + '/UnzippedFiles/')
+
 # 5. Merge the miRNA Seq files
 # -------------------------------------------------------
 miRNASeq_WF = ['BCGSC miRNA Profiling']
