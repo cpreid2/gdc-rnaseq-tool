@@ -21,9 +21,6 @@ class Filter(object):
         self.final_filter = json.dumps(self.filter,separators=(',',':'))
         return self.final_filter
 
-    def reset_filter(self):
-        self.filter = {"op": "and","content": []}
-
 ## -------------- Function for downloading files :
 def download(uuid, name, md5, ES, WF, DT, retry=0):
     if retry : sleep(retry)
@@ -73,7 +70,7 @@ def gunzip(file_path,output_path):
 def arg_parse():
     parser = argparse.ArgumentParser(
 		description='----GDC RNA Seq File Merging Tool v0.1----',
-		usage= 'python gdc-tsv-tool.py <options> MANIFEST_FILE')
+		usage= 'python3 gdc-rnaseq-tool.py MANIFEST_FILE')
     parser.add_argument('manifest_file', action="store",
 		help='Path to manifest file (or UUID List with -u)')
     args = parser.parse_args()
