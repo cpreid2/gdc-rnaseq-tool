@@ -3,6 +3,22 @@ Tool to download / merge individual RNASeq files from the [GDC Portal](https://p
 
 ![Image](https://raw.githubusercontent.com/cpreid2/gdc-rnaseq-tool/master/Images/TCGA%20Barcode.png)
 
+__Description__:
+
+The `gdc-rnaseq-tool` performs the following:
+
+1. Downloads RNA-Seq / miRNA-Seq data files using a GDC manifest file
+2. Unzips the files into separate folders identified by experimental strategy and bioinformatics workflow
+3. Merges the files into separate matrix files identified in the table below
+
+*The script will ignore any files in the manifest file that are not [Transcriptome Profiling files](https://portal.gdc.cancer.gov/repository?filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22files.data_category%22%2C%22value%22%3A%5B%22Transcriptome%20Profiling%22%5D%7D%7D%5D%7D) generated from the GDC RNA-Seq / miRNA-Seq bioinformatics pipelines located on the [GDC Main Portal](https://portal.gdc.cancer.gov):*
+
+[RNA-Seq / miRNA-Seq Files](https://portal.gdc.cancer.gov/repository?filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22files.data_category%22%2C%22value%22%3A%5B%22Transcriptome%20Profiling%22%5D%7D%7D%5D%7D)
+
+[RNA-Seq Bioinformatics Pipeline Documentation](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/)
+
+[miRNA-Seq Bioinformatics Pipeline Documentation](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/miRNA_Pipeline/)
+
 __Inputs and Outputs__:
 
 | I/O | File |
@@ -14,16 +30,12 @@ __Inputs and Outputs__:
 |  | Merged_miRNA_Counts.tsv |
 |  | Merged_miRNA_rpmm.tsv |
 
-__Bioinformatics Pipeline Information__:
-
-[RNA-Seq Pipeline](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/)
-
-[miRNA-Seq Pipeline](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/miRNA_Pipeline/)
 
 __Requirements__:
 
 - Python 3+
 - pandas ( https://pandas.pydata.org/pandas-docs/stable/install.html ): `pip3 install pandas`
+- requests (http://python-requests.org): `pip3 install requests`
 
 __Quick Start__:
 
