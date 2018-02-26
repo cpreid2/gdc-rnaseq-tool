@@ -42,6 +42,11 @@ __Quick Start__:
 1. Download `gdc-rnaseq-tool.py` python script
 2. Download manifest containing RNA/miRNA expression files from https://portal.gdc.cancer.gov/
 3. `python3 gdc-rnaseq-tool.py <manifest_file>`
+
+Optional: Add `-hugo` to the command to include the HUGO gene symbol as a separate column.  
+
+`python3 gdc-rnaseq-tool.py <manifest_file> -hugo`
+
 ---
 
 The GDC RNASeq tool produces matrices of merged RNA/MiRNA expression data given a manifest file.
