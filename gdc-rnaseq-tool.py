@@ -71,8 +71,8 @@ def arg_parse():
     parser = argparse.ArgumentParser(
 		description='----GDC RNA Seq File Merging Tool v0.1----',
 		usage= 'python3 gdc-rnaseq-tool.py MANIFEST_FILE')
-    parser.add_argument('manifest_file', action="store",
-		help='Path to manifest file (or UUID List with -u)')
+    parser.add_argument('manifest_file', action="store",help='Path to manifest file (or UUID List with -u)')
+    parser.add_argument('-g','--hugo', action="store_true",help='Add Hugo Symbol Name')
     args = parser.parse_args()
     return args
 
@@ -91,7 +91,9 @@ def error_parse(code):
 ## -------------- Main function :
 def main(args):
     global manifest_file
+    global hugo
     manifest_file = args.manifest_file
+    hugo = args.hugo
 
 # 0. Run Program
 # -------------------------------------------------------
@@ -176,6 +178,13 @@ RNASeq_WFs = ['HTSeq - Counts', 'HTSeq - FPKM-UQ','HTSeq - FPKM']
 
 GZipLocs = [Location + 'RNA-Seq/' + WF for WF in RNASeq_WFs]
 
+# Add Hugo Symbol
+if hugo == True:
+    url = 'https://github.com/cpreid2/gdc-rnaseq-tool/raw/master/Gene_Annotation/gencode.v22.genes.txt'
+    gene_map = pd.read_csv(url,sep='\t')
+    gene_map = gene_map[['gene_id','gene_name']]
+    gene_map = gene_map.set_index('gene_id')
+
 for i in range(len(RNASeq_WFs)):
 
     print('--------------')
@@ -215,6 +224,8 @@ for i in range(len(RNASeq_WFs)):
         Merged_File_Name = 'Merged_'+ RNASeq_WFs[i].replace('HTSeq - ','') + '.tsv'
         print('Creating merged ' + RNASeq_WFs[i] + ' File... ' + '( ' + Merged_File_Name + ' )')
         Counts_Final_Df = pd.DataFrame(Matrix, index=tuple((Counts_DataFrame['GeneId'])))
+        if hugo == True:
+            Counts_Final_Df = gene_map.merge(Counts_Final_Df, how='outer', left_index=True, right_index=True)
         Counts_Final_Df.to_csv(str(Location) + '/' + Merged_File_Name,sep='\t',index=True)
 
 # 5. Merge the miRNA Seq files
