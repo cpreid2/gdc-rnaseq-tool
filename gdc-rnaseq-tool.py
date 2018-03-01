@@ -7,6 +7,7 @@ import hashlib
 import argparse
 import os, fnmatch, gzip, shutil, tarfile
 from pathlib import Path
+import time
 
 ## -------------- JSON Filters constructor :
 class Filter(object):
@@ -99,13 +100,17 @@ def main(args):
 # -------------------------------------------------------
 main(arg_parse())
 
+# Get current time
+timestr = time.strftime("%Y%m%d-%H%M%S")
+
 # 1. Read in manifest and location of folder
 # -------------------------------------------------------
 #Location = os.path.dirname(os.path.abspath(__file__)) + '/'
 File = manifest_file
 Manifest_Loc = str(File.replace('\\', '').strip())
-Location = str(Path(File).parents[0]) + '/' # Create path object from the directory
+Location = str(Path(File).parents[0]) + '/Merged_RNASeq_' + timestr + '/' # Create path object from the directory
 
+os.makedirs(Location)
 
 print('Reading Manifest File from: ' + Manifest_Loc)
 print('Downloading Files to: ' + Location)
