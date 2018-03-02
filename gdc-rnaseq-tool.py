@@ -24,7 +24,6 @@ class Filter(object):
 
 ## -------------- Function for downloading files :
 def download(uuid, name, md5, ES, WF, DT, retry=0):
-    if retry : sleep(retry)
     try :
             fout = OFILE['data'].format(ES=ES, WF=WF, DT=DT, uuid=uuid, name=name)
             def md5_ok() :
