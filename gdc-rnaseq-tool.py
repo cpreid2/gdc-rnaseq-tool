@@ -44,6 +44,7 @@ def download(uuid, name, md5, ES, WF, DT, retry=0):
         if md5_ok():
             return (uuid, retry, md5_ok())
         else:
+            os.remove(fout)
             raise ValueError('MD5 Sum Error on ' + uuid)
     except Exception as e :
         print("Error (attempt {}): {}".format(retry, e))
