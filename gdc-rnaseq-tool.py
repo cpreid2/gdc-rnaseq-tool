@@ -25,25 +25,27 @@ class Filter(object):
 ## -------------- Function for downloading files :
 def download(uuid, name, md5, ES, WF, DT, retry=0):
     try :
-            fout = OFILE['data'].format(ES=ES, WF=WF, DT=DT, uuid=uuid, name=name)
-            def md5_ok() :
-                with open(fout, 'rb') as f :
-                    return (md5 == hashlib.md5(f.read()).hexdigest())
+        fout = OFILE['data'].format(ES=ES, WF=WF, DT=DT, uuid=uuid, name=name)
+        def md5_ok() :
+            with open(fout, 'rb') as f :
+                return (md5 == hashlib.md5(f.read()).hexdigest())
 
-            do_download = not (os.path.isfile(fout) and md5_ok())
+        print("Downloading (attempt {}): {}".format(retry, uuid))
+        url = PARAM['url-data'].format(uuid=uuid)
 
-            if do_download :
-                print("Downloading (attempt {}): {}".format(retry, uuid))
-                url = PARAM['url-data'].format(uuid=uuid)
+        with urllib.request.urlopen(url) as response :
+            data = response.read()
 
-                with urllib.request.urlopen(url) as response :
-                    data = response.read()
+        os.makedirs(os.path.dirname(fout), exist_ok=True)
 
-                os.makedirs(os.path.dirname(fout), exist_ok=True)
+        with open(fout, 'wb') as f :
+            f.write(data)
 
-                with open(fout, 'wb') as f :
-                    f.write(data)
+        if md5_ok():
             return (uuid, retry, md5_ok())
+        else:
+            os.remove(fout)
+            raise ValueError('MD5 Sum Error on ' + uuid)
     except Exception as e :
         print("Error (attempt {}): {}".format(retry, e))
         if (retry >= PARAM['max retry']) :
