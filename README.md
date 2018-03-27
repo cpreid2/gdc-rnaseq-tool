@@ -39,7 +39,7 @@ __Requirements__:
 
 __Quick Start__:
 
-1. Download `gdc-rnaseq-tool.py` python script
+1. [Download](https://github.com/cpreid2/gdc-rnaseq-tool/releases/download/1.0/gdc-rnaseq-tool.py) `gdc-rnaseq-tool.py` python script
 2. Download manifest containing RNA/miRNA expression files from https://portal.gdc.cancer.gov/
 3. `python3 gdc-rnaseq-tool.py <manifest_file>`
 
