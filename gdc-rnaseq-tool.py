@@ -1,6 +1,5 @@
 import requests
 import json
-import urllib
 import pandas as pd
 import sys
 import hashlib
@@ -23,7 +22,7 @@ class Filter(object):
         return self.final_filter
 
 ## -------------- Function for downloading files :
-def download(uuid, name, md5, ES, WF, DT, retry=0):
+def download(uuid, header,name, md5, ES, WF, DT, retry=0):
     try :
         fout = OFILE['data'].format(ES=ES, WF=WF, DT=DT, uuid=uuid, name=name)
 
@@ -42,8 +41,8 @@ def download(uuid, name, md5, ES, WF, DT, retry=0):
         else:
             url = PARAM['url-data'].format(uuid=uuid)
 
-        with urllib.request.urlopen(url) as response :
-            data = response.read()
+        with requests.get(url,headers=header) as response :
+            data = response.content
 
         with open(fout, 'wb') as f :
             f.write(data)
@@ -57,7 +56,7 @@ def download(uuid, name, md5, ES, WF, DT, retry=0):
         print("Error (attempt {}): {}".format(retry, e))
         if (retry >= PARAM['max retry']) :
             raise e
-        return download(uuid, name, md5, ES, WF, DT, retry + 1)
+        return download(uuid, header,name, md5, ES, WF, DT, retry + 1)
 
 ## -------------- Function for reading manifest file :
 def read_manifest(manifest_loc):
@@ -81,6 +80,7 @@ def arg_parse():
 		description='----GDC RNA Seq File Merging Tool v0.1----',
 		usage= 'python3 gdc-rnaseq-tool.py MANIFEST_FILE')
     parser.add_argument('manifest_file', action="store",help='Path to manifest file (or UUID List with -u)')
+    parser.add_argument('-t','--token',action="store",type=str,help='Path to token file')
     parser.add_argument('-g','--hugo', action="store_true",help='Add Hugo Symbol Name')
     parser.add_argument('-a','--awg', action="store_true",help='Access Files from AWG Portal')
     args = parser.parse_args()
@@ -101,9 +101,11 @@ def error_parse(code):
 ## -------------- Main function :
 def main(args):
     global manifest_file
+    global token
     global hugo
     global awg
     manifest_file = args.manifest_file
+    token = args.token
     hugo = args.hugo
     awg = args.awg
 
@@ -113,6 +115,18 @@ main(arg_parse())
 
 # Get current time
 timestr = time.strftime("%Y%m%d-%H%M%S")
+
+# 1. Read in token file and location of folder
+# -------------------------------------------------------
+#Location = os.path.dirname(os.path.abspath(__file__)) + '/'
+header = None
+if token is not None:
+    Token_File = token
+    Token_Loc = str(Token_File.replace('\\', '').strip())
+
+    with open(Token_Loc,'r') as myfile:
+        x = myfile.readlines()
+    header = {"Content-Type": "application/json","X-Auth-Token":x[0]}
 
 # 1. Read in manifest and location of folder
 # -------------------------------------------------------
@@ -144,7 +158,7 @@ Payload = {'filters':File_Filter.create_filter(),
            'fields':Fields,
            'size':Size}
 if awg == True:
-    r = requests.post('https://api.awg.gdc.cancer.gov/files', json=Payload)
+    r = requests.post('https://api.awg.gdc.cancer.gov/files', json=Payload,headers = header)
 else:
     r = requests.post('https://api.gdc.cancer.gov/files', json=Payload)
 data = json.loads(r.text)
@@ -185,6 +199,7 @@ PARAM = {
 
 for key, value in Dictionary.items():
     download(key,
+             header,
              value['File Name'],
              value['MD5'],
              value['Experimental Strategy'],
