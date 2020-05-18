@@ -26,17 +26,24 @@ class Filter(object):
 def download(uuid, name, md5, ES, WF, DT, retry=0):
     try :
         fout = OFILE['data'].format(ES=ES, WF=WF, DT=DT, uuid=uuid, name=name)
+
+        fout = os.path.abspath(fout)
+
+        os.makedirs(os.path.dirname(fout), exist_ok=True)
+
         def md5_ok() :
             with open(fout, 'rb') as f :
                 return (md5 == hashlib.md5(f.read()).hexdigest())
 
         print("Downloading (attempt {}): {}".format(retry, uuid))
-        url = PARAM['url-data'].format(uuid=uuid)
+
+        if awg == True:
+            url = PARAM['awg-url-data'].format(uuid=uuid)
+        else:
+            url = PARAM['url-data'].format(uuid=uuid)
 
         with urllib.request.urlopen(url) as response :
             data = response.read()
-
-        os.makedirs(os.path.dirname(fout), exist_ok=True)
 
         with open(fout, 'wb') as f :
             f.write(data)
@@ -75,6 +82,7 @@ def arg_parse():
 		usage= 'python3 gdc-rnaseq-tool.py MANIFEST_FILE')
     parser.add_argument('manifest_file', action="store",help='Path to manifest file (or UUID List with -u)')
     parser.add_argument('-g','--hugo', action="store_true",help='Add Hugo Symbol Name')
+    parser.add_argument('-a','--awg', action="store_true",help='Access Files from AWG Portal')
     args = parser.parse_args()
     return args
 
@@ -94,8 +102,10 @@ def error_parse(code):
 def main(args):
     global manifest_file
     global hugo
+    global awg
     manifest_file = args.manifest_file
     hugo = args.hugo
+    awg = args.awg
 
 # 0. Run Program
 # -------------------------------------------------------
@@ -133,7 +143,10 @@ Payload = {'filters':File_Filter.create_filter(),
            'format':'json',
            'fields':Fields,
            'size':Size}
-r = requests.post('https://api.gdc.cancer.gov/files', json=Payload)
+if awg == True:
+    r = requests.post('https://api.awg.gdc.cancer.gov/files', json=Payload)
+else:
+    r = requests.post('https://api.gdc.cancer.gov/files', json=Payload)
 data = json.loads(r.text)
 file_list = data['data']['hits']
 
@@ -164,6 +177,7 @@ PARAM = {
 
 # URL
 'url-data' : "https://api.gdc.cancer.gov/data/{uuid}",
+'awg-url-data' : "https://api.awg.gdc.cancer.gov/data/{uuid}",
 
 # Persistence upon error
 'max retry' : 10,
